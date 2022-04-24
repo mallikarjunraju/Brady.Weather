@@ -2,7 +2,9 @@ namespace Brady.Weather.API
 {
     using System;
     using System.IO;
-    using Brady.Weather.API.Services.OpenWeatherMap;
+    using Brady.Weather.API.Services.Forecast;
+    using Brady.Weather.API.Services.GeoCoding;
+    using Brady.Weather.API.Services.Weather;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -45,11 +47,9 @@ namespace Brady.Weather.API
                 c.EnableAnnotations();
             });
 
-            services.AddHttpClient<IWeatherService, WeatherService>(
-                c =>
-                {
-                    c.BaseAddress = new Uri(Configuration.GetSection("OpenWeatherMap:Uri").Value);
-                });
+            services.AddHttpClient<IWeatherService, WeatherService>(c => { c.BaseAddress = new Uri(Configuration.GetSection("OpenWeatherMap:Uri").Value); });
+            services.AddHttpClient<IForecastService, ForecastService>(c => { c.BaseAddress = new Uri(Configuration.GetSection("OpenWeatherMap:Uri").Value); });
+            services.AddHttpClient<IGeoCodingService, GeoCodingService>(c => { c.BaseAddress = new Uri(Configuration.GetSection("OpenWeatherMap:Uri").Value); });
         }
 
         /// <summary>

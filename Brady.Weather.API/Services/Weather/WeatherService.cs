@@ -1,4 +1,4 @@
-﻿namespace Brady.Weather.API.Services.OpenWeatherMap
+﻿namespace Brady.Weather.API.Services.Weather
 {
     using Microsoft.Extensions.Configuration;
     using System.Net.Http;
@@ -30,7 +30,7 @@
         /// <returns></returns>
         public async Task<string> GetCityWeather(string city)
         {
-            var response = await _client.GetAsync($"{_configuration.GetSection("OpenWeatherMap:Version").Value}/weather?appid={_configuration.GetSection("OpenWeatherMap:Key").Value}&q={city}");
+            var response = await _client.GetAsync($"data/2.5/weather?appid={_configuration.GetSection("OpenWeatherMap:Key").Value}&q={city}");
             if (response.IsSuccessStatusCode)
             {
                 return response.Content.ReadAsStringAsync().Result;
@@ -38,7 +38,7 @@
             else
             {
                 return null;
-            }           
+            }
         }
     }
 }

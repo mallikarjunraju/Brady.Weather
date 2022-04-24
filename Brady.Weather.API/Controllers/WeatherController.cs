@@ -1,13 +1,13 @@
 ﻿namespace Brady.Weather.API.Controllers
 {
-    using Brady.Weather.API.Services.OpenWeatherMap;
+    using Brady.Weather.API.Services.Weather;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using System.Net.Http;
     using System.Threading.Tasks;
 
     /// <summary>
-    /// WeatherForecastController
+    /// WeatherController.
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -15,21 +15,21 @@
     public class WeatherController : ControllerBase
     {
         private readonly ILogger<WeatherController> _logger;
-        private readonly IWeatherService _openWeatherAppService;
+        private readonly IWeatherService _weatherService;
 
         /// <summary>
-        /// WeatherForecastController Constructor.
+        /// WeatherController Constructor.
         /// </summary>
-        /// <param name="openWeatherAppService"></param>
+        /// <param name="weatherService"></param>
         /// <param name="logger"></param>
-        public WeatherController(IWeatherService openWeatherAppService, ILogger<WeatherController> logger)
+        public WeatherController(IWeatherService weatherService, ILogger<WeatherController> logger)
         {
-            _openWeatherAppService = openWeatherAppService;
+            _weatherService = weatherService;
             _logger = logger;
         }
 
         /// <summary>
-        /// 
+        /// Gets the weather data for a given city.
         /// </summary>
         /// <param name="city"></param>
         /// <returns></returns>
@@ -38,7 +38,7 @@
         {
             try
             {
-                var rawWeather = await this._openWeatherAppService.GetCityWeather(city);
+                var rawWeather = await this._weatherService.GetCityWeather(city);
                 return Ok(rawWeather);
             }
             catch (HttpRequestException httpRequestException)
