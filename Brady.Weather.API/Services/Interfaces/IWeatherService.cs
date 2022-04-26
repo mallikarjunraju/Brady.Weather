@@ -1,4 +1,4 @@
-﻿namespace Brady.Weather.API.Services.Weather
+﻿namespace Brady.Weather.API.Services.Interfaces
 {
     using System.Threading.Tasks;
 

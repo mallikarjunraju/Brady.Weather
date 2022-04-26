@@ -1,7 +1,7 @@
-﻿using Brady.Weather.API.Entities;
-namespace Brady.Weather.API.Services.GeoCoding
+﻿namespace Brady.Weather.API.Services.Interfaces
 {
     using System.Threading.Tasks;
+    using Brady.Weather.API.Entities;
 
     /// <summary>
     /// IGeoCodingService interface.

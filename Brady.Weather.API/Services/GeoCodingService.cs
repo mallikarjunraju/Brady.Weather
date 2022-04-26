@@ -1,6 +1,7 @@
-﻿namespace Brady.Weather.API.Services.GeoCoding
+﻿namespace Brady.Weather.API.Services
 {
     using Brady.Weather.API.Entities;
+    using Brady.Weather.API.Services.Interfaces;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
@@ -33,19 +34,14 @@
             string lat = string.Empty, lon = string.Empty;
 
             var response = await _client.GetAsync($"geo/1.0/direct?appid={_configuration.GetSection("OpenWeatherMap:Key").Value}&q={city}&limit=5").ConfigureAwait(false);
-            if (response.IsSuccessStatusCode)
+
+            var jsonArray = JsonConvert.DeserializeObject<JArray>(response.Content.ReadAsStringAsync().Result);
+            if (jsonArray != null)
             {
-                var jsonArray = JsonConvert.DeserializeObject<JArray>(response.Content.ReadAsStringAsync().Result);
-                if (jsonArray != null) {
-                    lat = jsonArray[0]["lat"].Value<string>();
-                    lon = jsonArray[0]["lon"].Value<string>();                    
-                }
-                return await Task.FromResult(new Coordinates { Latitude = lat, Longitude = lon });
+                lat = jsonArray[0]["lat"].Value<string>();
+                lon = jsonArray[0]["lon"].Value<string>();
             }
-            else
-            {
-                return null;
-            }
+            return await Task.FromResult(new Coordinates { Latitude = lat, Longitude = lon });
         }
     }
 }

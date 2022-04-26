@@ -2,15 +2,20 @@ namespace Brady.Weather.API
 {
     using System;
     using System.IO;
-    using Brady.Weather.API.Services.Forecast;
-    using Brady.Weather.API.Services.GeoCoding;
+    using Brady.Weather.API.Middleware.ErrorHandling;
+    using Brady.Weather.API.Services;
+    using Brady.Weather.API.Services.Interfaces;
     using Brady.Weather.API.Services.Weather;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using Swashbuckle.AspNetCore.Filters;
+    using Swashbuckle.AspNetCore.SwaggerGen;
 
     /// <summary>
     /// Startup.
@@ -37,7 +42,21 @@ namespace Brady.Weather.API
         /// <param name="services"></param>        
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            //Enable CORS
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod()
+                 .AllowAnyHeader());
+            });
+
+            services
+                .AddControllers(o =>
+                {
+                    o.Filters.Add(new ProducesAttribute("application/json"));
+                    o.Conventions.Add(new SwaggerApplicationConvention());
+                })
+                .AddNewtonsoftJson(options => ConfigureJsonSerialization(options.SerializerSettings))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddSwaggerGenNewtonsoftSupport();
             services.AddSwaggerExamplesFromAssemblyOf<Startup>();
             services.AddSwaggerGen(c =>
@@ -59,12 +78,16 @@ namespace Brady.Weather.API
         /// <param name="env"></param>      
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseRouting();
 
@@ -82,5 +105,19 @@ namespace Brady.Weather.API
                     option.SwaggerEndpoint("/swagger/v1/swagger.json", "Weather API V1");
                 });
         }
+
+        private static void ConfigureJsonSerialization(JsonSerializerSettings serializerSettings)
+        {
+            serializerSettings.Formatting = Formatting.Indented;
+            serializerSettings.FloatParseHandling = FloatParseHandling.Decimal;
+
+            var dateConverter = new IsoDateTimeConverter
+            {
+                DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ"
+            };
+            serializerSettings.Converters.Add(new StringEnumConverter());
+            serializerSettings.Converters.Add(dateConverter);
+        }
+
     }
 }

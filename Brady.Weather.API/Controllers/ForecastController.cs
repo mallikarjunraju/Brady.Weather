@@ -1,6 +1,6 @@
 ﻿namespace Brady.Weather.API.Controllers
 {
-    using Brady.Weather.API.Services.Forecast;
+    using Brady.Weather.API.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using System.Net.Http;
@@ -36,16 +36,8 @@
         [HttpGet("[action]/{city}")]
         public async Task<IActionResult> City(string city)
         {
-            try
-            {
-                var rawForecast = await this._forecastService.GetCityForecast(city);
-                return Ok(rawForecast);
-            }
-            catch (HttpRequestException httpRequestException)
-            {
-                _logger.LogError($"Exception in Forecast API: {httpRequestException}");
-                return BadRequest($"Error getting Forecast from OpenForecast: {httpRequestException.Message}");
-            }
+            var rawForecast = await this._forecastService.GetCityForecast(city);
+            return Ok(rawForecast);
         }
     }
 }

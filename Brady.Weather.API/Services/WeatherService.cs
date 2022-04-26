@@ -1,5 +1,6 @@
 ﻿namespace Brady.Weather.API.Services.Weather
 {
+    using Brady.Weather.API.Services.Interfaces;
     using Microsoft.Extensions.Configuration;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -31,14 +32,8 @@
         public async Task<string> GetCityWeather(string city)
         {
             var response = await _client.GetAsync($"data/2.5/weather?appid={_configuration.GetSection("OpenWeatherMap:Key").Value}&q={city}");
-            if (response.IsSuccessStatusCode)
-            {
-                return response.Content.ReadAsStringAsync().Result;
-            }
-            else
-            {
-                return null;
-            }
+
+            return response.Content.ReadAsStringAsync().Result;
         }
     }
 }
