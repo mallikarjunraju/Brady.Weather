@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brady.Weather.API", "Brady.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brady.Weather.API.UnitTests", "Brady.Weather.API.UnitTests\Brady.Weather.API.UnitTests.csproj", "{E9651324-C71B-4894-AE6E-1D1E16DA8C71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brady.Weather.Website", "Brady.Weather.Website\Brady.Weather.Website.csproj", "{55476253-5BE0-4C25-A662-65698660C753}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E9651324-C71B-4894-AE6E-1D1E16DA8C71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9651324-C71B-4894-AE6E-1D1E16DA8C71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9651324-C71B-4894-AE6E-1D1E16DA8C71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55476253-5BE0-4C25-A662-65698660C753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55476253-5BE0-4C25-A662-65698660C753}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55476253-5BE0-4C25-A662-65698660C753}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55476253-5BE0-4C25-A662-65698660C753}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,100 @@
+<head>
+  <title>Weather App</title>
+</head>
+<h1 style="text-align:center">Welcome to Weather App!</h1>
+<app-search></app-search>
+<div class='panel panel-primary' *ngIf=" !iscityinputgiven  && weatherinfo.isSuccessResponse">
+  <div class='panel-heading'>
+    <h1 style="text-align:center">Current Weather</h1>
+  </div>
+</div>
+
+<div class='panel-body' *ngIf="!iscityinputgiven && weatherinfo.isSuccessResponse">
+  <div class='table-responsive'>
+    <table class='table table-striped' aria-labelledby="tableLabel">
+      <thead>
+        <tr>
+          <th>Weather</th>
+          <th>City</th>
+          <th>Current Temp. (C)</th>
+          <th>FeelsLike</th>
+          <th>Min Temp. (C)</th>
+          <th>Max Temp. (C)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ weatherinfo.data.desc }}</td>
+          <td>{{ weatherinfo.data.city }}</td>
+          <td>{{ weatherinfo.data.currentTemp }}</td>
+          <td>{{ weatherinfo.data.feelsLike }}</td>
+          <td>{{ weatherinfo.data.tempMin }}</td>
+          <td>{{ weatherinfo.data.tempMax }}</td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class='panel panel-primary' *ngIf="!iscityinputgiven && !weatherinfo.isSuccessResponse">
+  <div class='panel-heading'>
+    <p class='table table-striped' aria-labelledby="tableLabel">
+      <em>{{ weatherinfo.exception.message }} </em>
+    </p>
+  </div>
+</div>
+
+<div class='panel panel-primary' *ngIf="!iscityinputgiven && weatherinfo.isSuccessResponse">
+  <div class='panel-heading'>
+    <h1 style="text-align:center">7 Day - Daily Forecast</h1>
+  </div>
+
+  <div class='panel-body'>
+    <div class='table-responsive'>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Weather Description</th>
+            <th>ForeCast Temperature</th>
+            <th>FeelsLike Temperature</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of forecastinfo.data;">
+            <td>{{item.date}}</td>
+            <td>{{item.desc}}</td>
+            <td>
+              <table>
+                <tr>
+                  <td>
+                    Min Temp : {{item.forecastTemp.minTemp}}
+                    <br />Max Temp : {{item.forecastTemp.maxTemp}}
+                    <br />Day Temp : {{item.forecastTemp.shiftsTemp.dayTemp}}
+                    <br />Morning Temp : {{item.forecastTemp.shiftsTemp.dayTemp}}
+                    <br />Evening Temp : {{item.forecastTemp.shiftsTemp.morningTemp}}
+                    <br />Night Temp : {{item.forecastTemp.shiftsTemp.nightTemp}}
+                  </td>
+                </tr>
+              </table>
+            </td>
+
+            <td>
+              <table>
+                <tr>
+                  <td>
+                    Day Temp : {{item.feelsLike.dayTemp}}
+                    <br />Morning Temp : {{item.feelsLike.dayTemp}}
+                    <br />Evening Temp : {{item.feelsLike.morningTemp}}
+                    <br />Night Temp : {{item.feelsLike.nightTemp}}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
