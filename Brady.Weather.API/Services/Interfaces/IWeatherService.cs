@@ -1,5 +1,6 @@
 ﻿namespace Brady.Weather.API.Services.Interfaces
 {
+    using Brady.Weather.API.Entities;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -12,6 +13,6 @@
         /// </summary>
         /// <param name="city"></param>
         /// <returns></returns>
-        public Task<string> GetCityWeather(string city);
+        public Task<ApiResponse<WeatherData>> GetCityWeather(string city);
     }
 }

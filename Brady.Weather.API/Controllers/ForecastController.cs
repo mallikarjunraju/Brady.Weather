@@ -3,7 +3,6 @@
     using Brady.Weather.API.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using System.Net.Http;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -29,7 +28,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Gets the weather forecast data for a given city.
         /// </summary>
         /// <param name="city"></param>
         /// <returns></returns>

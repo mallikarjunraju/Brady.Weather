@@ -5,6 +5,7 @@
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using System.Linq;
     using System.Net.Http;
     using System.Threading.Tasks;
 
@@ -31,17 +32,24 @@
         /// <returns></returns>
         public async Task<Coordinates> GetCityCoordinates(string city)
         {
-            string lat = string.Empty, lon = string.Empty;
-
-            var response = await _client.GetAsync($"geo/1.0/direct?appid={_configuration.GetSection("OpenWeatherMap:Key").Value}&q={city}&limit=5").ConfigureAwait(false);
-
-            var jsonArray = JsonConvert.DeserializeObject<JArray>(response.Content.ReadAsStringAsync().Result);
-            if (jsonArray != null)
+            Coordinates coordinates = null;
+            if (city.All(char.IsLetter))
             {
-                lat = jsonArray[0]["lat"].Value<string>();
-                lon = jsonArray[0]["lon"].Value<string>();
+                var response = await _client.GetAsync($"geo/1.0/direct?appid={_configuration.GetSection("OpenWeatherMap:Key").Value}&q={city}&limit=5").ConfigureAwait(false);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonArray = JsonConvert.DeserializeObject<JArray>(response.Content.ReadAsStringAsync().Result);
+                    if (jsonArray != null && jsonArray.Count > 0)
+                    {
+                        coordinates = new Coordinates
+                        {
+                            Latitude = jsonArray[0]["lat"].Value<string>(),
+                            Longitude = jsonArray[0]["lon"].Value<string>()
+                        };
+                    }
+                }
             }
-            return await Task.FromResult(new Coordinates { Latitude = lat, Longitude = lon });
+            return coordinates;
         }
     }
 }
