@@ -8,7 +8,7 @@ metadata:
     component: angular-app
 spec:
   containers:
-    - image: rajudev.azurecr.io/weatherangular:v1.3
+    - image: rajudev.azurecr.io/weatherangular:v1.4
       name: website
       ports:
         - containerPort: 80
