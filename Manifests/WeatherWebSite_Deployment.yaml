@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: weatherwebsite
+  namespace: weather
+  labels:
+    app: weatherwebsite
+    component: angular-app
+spec:
+  containers:
+    - image: rajudev.azurecr.io/weatherangular:v1.3
+      name: website
+      ports:
+        - containerPort: 80

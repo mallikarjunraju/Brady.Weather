@@ -1,4 +1,4 @@
-import { ForecastTemperature } from "./foreCasttemperature";
+import { ForecastTemperature } from "./forecasttemperature";
 import { ShiftsTemperature } from "./shiftstemperature";
 
 export interface Forecast {

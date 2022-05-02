@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: weatherapi
+  namespace: weather
+  labels:
+    app: weatherapi
+    component: netcore-app
+spec:
+  containers:
+    - image: rajudev.azurecr.io/weatherapi:v1.1
+      name: webapi
+      ports:
+        - containerPort: 80

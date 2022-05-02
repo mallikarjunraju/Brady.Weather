@@ -20,13 +20,13 @@ export class HomeComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.iscityinputgiven = this.isEmpty(params.searchTerm);
       //if (!this.isEmpty(params.searchTerm))
-      this.http.get<WeatherResponse>("https://localhost:44312/Weather/City/" + params.searchTerm).subscribe(result => {
+      this.http.get<WeatherResponse>("http://20.195.92.172:8080/Weather/City/" + params.searchTerm).subscribe(result => {
         this.weatherinfo = result;
       }, error => console.error(error));
     });
     this.route.params.subscribe(params => {
       //if (!this.isEmpty(params.searchTerm))
-      this.http.get<ForecastResponse>("https://localhost:44312/Forecast/City/" + params.searchTerm).subscribe(result => {
+      this.http.get<ForecastResponse>("http://20.195.92.172:8080/Forecast/City/" + params.searchTerm).subscribe(result => {
         this.forecastinfo = result;
       }, error => console.error(error));
 
